@@ -1,15 +1,17 @@
-package io.github.korzepadawid.chatapplication_lsm
+package io.github.korzepadawid.chatapplication_lsm.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import io.github.korzepadawid.chatapplication_lsm.R
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
+
     private lateinit var loginButton: Button
     private lateinit var registerButton: Button
 
