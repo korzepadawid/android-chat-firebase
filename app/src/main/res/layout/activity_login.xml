@@ -12,7 +12,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="80dp"
         android:contentDescription="@string/logo_content_description"
         android:src="@drawable/logo" />
 
@@ -43,7 +43,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_password_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
