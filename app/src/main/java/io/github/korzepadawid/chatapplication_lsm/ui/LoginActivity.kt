@@ -1,4 +1,4 @@
-package io.github.korzepadawid.chatapplication_lsm.ui.auth
+package io.github.korzepadawid.chatapplication_lsm.ui
 
 import android.content.Intent
 import android.os.Bundle
