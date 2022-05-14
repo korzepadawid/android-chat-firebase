@@ -19,6 +19,11 @@ class FirebaseAuthRepository {
 
     fun register(email: String, password: String, username: String) {
         _authState.postValue(AuthState.Loading)
+
+        if (email.isBlank() || password.isBlank() || username.isBlank()) {
+            _authState.postValue(AuthState.AuthError("Invalid data."))
+        }
+
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

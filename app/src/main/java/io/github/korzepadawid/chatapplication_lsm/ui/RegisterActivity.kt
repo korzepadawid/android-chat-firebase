@@ -19,12 +19,6 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var loginButton: Button
     private lateinit var registerButton: Button
-    private var registerViewModel: RegisterViewModel
-
-    init {
-        val viewModelFactory = Injection.provideRegisterViewModelFactory()
-        registerViewModel = ViewModelProvider(this, viewModelFactory)[RegisterViewModel::class.java]
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +27,9 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun initializeUi() {
-
+        val viewModelFactory = Injection.provideRegisterViewModelFactory()
+        val registerViewModel =
+            ViewModelProvider(this, viewModelFactory)[RegisterViewModel::class.java]
 
         emailEditText = findViewById(R.id.edit_text_email_register)
         passwordEditText = findViewById(R.id.edit_text_password_register)
@@ -41,32 +37,11 @@ class RegisterActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.button_log_in_register)
         registerButton = findViewById(R.id.button_register_register)
 
-        listenNavigationToLogin()
-        observeAuthStateChange()
-        listenRegistrationRequest()
-    }
-
-    private fun listenNavigationToLogin() {
         loginButton.setOnClickListener {
             val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
             startActivity(intent)
         }
-    }
 
-    private fun listenRegistrationRequest() {
-        registerButton.setOnClickListener {
-            val email = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
-            val username = usernameEditText.text.toString()
-            try {
-                registerViewModel.register(email, password, username)
-            } catch (e: RuntimeException) {
-                Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun observeAuthStateChange() {
         registerViewModel.getAuthState().observe(this) { authState ->
             if (AuthState.Success == authState) {
                 val intent = Intent(this@RegisterActivity, MainActivity::class.java)
@@ -75,6 +50,18 @@ class RegisterActivity : AppCompatActivity() {
             } else if (authState::class.java == AuthState.AuthError::class.java) {
                 authState as AuthState.AuthError
                 Toast.makeText(this@RegisterActivity, authState.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        registerButton.setOnClickListener {
+            val email = emailEditText.text.toString()
+            val password = passwordEditText.text.toString()
+            val username = usernameEditText.text.toString()
+
+            try {
+                registerViewModel.register(email, password, username)
+            } catch (e: RuntimeException) {
+                Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
