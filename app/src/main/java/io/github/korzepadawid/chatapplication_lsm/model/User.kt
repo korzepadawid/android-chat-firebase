@@ -1,7 +1,8 @@
 package io.github.korzepadawid.chatapplication_lsm.model
 
 data class User(
-    private val uid: String,
-    private val username: String,
-    private val themePreference: ThemePreference
+    val uid: String,
+    val username: String,
+    val email: String,
+    val themePreference: ThemePreference = ThemePreference.LIGHT
 )
