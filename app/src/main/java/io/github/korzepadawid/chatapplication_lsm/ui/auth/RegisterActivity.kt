@@ -39,32 +39,44 @@ class RegisterActivity : AppCompatActivity() {
         registerButton = findViewById(R.id.button_register_register)
 
         loginButton.setOnClickListener {
-            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
-            startActivity(intent)
+            handleLogInButton()
         }
 
         authViewModel.getAuthState().observe(this) { authState ->
-            if (AuthState.Success == authState) {
-                val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-                finish()
-                startActivity(intent)
-            } else if (authState::class.java == AuthState.AuthError::class.java) {
-                authState as AuthState.AuthError
-                Toast.makeText(this@RegisterActivity, authState.message, Toast.LENGTH_SHORT).show()
-            }
+            observeAuthState(authState)
         }
 
         registerButton.setOnClickListener {
-            val email = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
-            val username = usernameEditText.text.toString()
-
-            try {
-                authViewModel.register(email, password, username)
-            } catch (e: RuntimeException) {
-                Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_SHORT).show()
-            }
+            handleRegisterButton(authViewModel)
         }
+    }
+
+    private fun handleRegisterButton(authViewModel: AuthViewModel) {
+        val email = emailEditText.text.toString()
+        val password = passwordEditText.text.toString()
+        val username = usernameEditText.text.toString()
+
+        try {
+            authViewModel.register(email, password, username)
+        } catch (e: RuntimeException) {
+            Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun observeAuthState(authState: AuthState?) {
+        if (AuthState.Success == authState) {
+            val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+            finish()
+            startActivity(intent)
+        } else if (authState!!::class.java == AuthState.AuthError::class.java) {
+            authState as AuthState.AuthError
+            Toast.makeText(this@RegisterActivity, authState.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun handleLogInButton() {
+        val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+        startActivity(intent)
     }
 }
 
