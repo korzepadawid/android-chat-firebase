@@ -9,11 +9,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.github.korzepadawid.chatapplication_lsm.R
+import io.github.korzepadawid.chatapplication_lsm.model.User
 import io.github.korzepadawid.chatapplication_lsm.ui.auth.LoginActivity
 import io.github.korzepadawid.chatapplication_lsm.util.Injection
 
 class ContactsActivity : AppCompatActivity() {
+
+    private lateinit var userRecyclerView: RecyclerView
+    private lateinit var users: ArrayList<User>
+    private lateinit var userAdapter: UserAdapter
 
     private lateinit var contactsViewModelFactory: ContactsViewModelFactory
     private lateinit var contactsViewModel: ContactsViewModel
@@ -21,9 +28,24 @@ class ContactsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacts)
+
         contactsViewModelFactory = Injection.provideContactsViewModelFactory()
         contactsViewModel =
             ViewModelProvider(this, contactsViewModelFactory)[ContactsViewModel::class.java]
+
+        userRecyclerView = findViewById(R.id.recycler_view_contacts)
+        users = ArrayList()
+
+        userAdapter = UserAdapter(this@ContactsActivity, users)
+        userRecyclerView.layoutManager = LinearLayoutManager(this)
+        userRecyclerView.adapter = userAdapter
+
+
+        contactsViewModel.getUsers().observe(this@ContactsActivity) {
+            users.clear()
+            users.addAll(it)
+            userAdapter.notifyDataSetChanged()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

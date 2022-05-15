@@ -9,5 +9,7 @@ class ContactsViewModel(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
+    fun getUsers() = userRepository.users
+
     fun logOut() = firebaseAuthRepository.logOut()
 }

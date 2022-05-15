@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.korzepadawid.chatapplication_lsm.R
 import io.github.korzepadawid.chatapplication_lsm.model.User
 
-class UserAdapter(private val context: Context, private val users: List<User>) :
+class UserAdapter(private val context: Context, private val users: ArrayList<User>) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
