@@ -10,7 +10,5 @@ class AuthViewModel(private val firebaseAuthRepository: FirebaseAuthRepository) 
 
     fun login(email: String, password: String) = firebaseAuthRepository.login(email, password)
 
-    fun logOut() = firebaseAuthRepository.logOut()
-
     fun getAuthState() = firebaseAuthRepository.authState
 }

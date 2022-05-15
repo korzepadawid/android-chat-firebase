@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import io.github.korzepadawid.chatapplication_lsm.ui.ContactsActivity
+import io.github.korzepadawid.chatapplication_lsm.ui.contacts.ContactsActivity
 import io.github.korzepadawid.chatapplication_lsm.util.Injection
 
 abstract class BaseAuthActivity(@LayoutRes private val layoutRes: Int) : AppCompatActivity() {
