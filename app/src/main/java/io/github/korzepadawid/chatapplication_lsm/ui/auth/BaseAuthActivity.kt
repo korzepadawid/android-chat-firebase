@@ -8,8 +8,7 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import io.github.korzepadawid.chatapplication_lsm.model.AuthState
-import io.github.korzepadawid.chatapplication_lsm.ui.MainActivity
+import io.github.korzepadawid.chatapplication_lsm.ui.ContactsActivity
 import io.github.korzepadawid.chatapplication_lsm.util.Injection
 
 abstract class BaseAuthActivity(@LayoutRes private val layoutRes: Int) : AppCompatActivity() {
@@ -46,7 +45,7 @@ abstract class BaseAuthActivity(@LayoutRes private val layoutRes: Int) : AppComp
 
     private fun observeAuthState(authState: AuthState?) {
         if (AuthState.Success == authState) {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, ContactsActivity::class.java)
             finish()
             startActivity(intent)
         } else if (authState!!::class.java == AuthState.AuthError::class.java) {

@@ -22,7 +22,7 @@
             android:name=".ui.auth.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.ContactsActivity"
             android:exported="false" />
     </application>
 

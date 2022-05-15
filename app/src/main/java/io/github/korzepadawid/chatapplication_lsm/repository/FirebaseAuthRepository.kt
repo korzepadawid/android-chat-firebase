@@ -6,8 +6,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import io.github.korzepadawid.chatapplication_lsm.model.AuthState
 import io.github.korzepadawid.chatapplication_lsm.model.User
+import io.github.korzepadawid.chatapplication_lsm.ui.auth.AuthState
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.FIREBASE_USERS_ROOT
 
 class FirebaseAuthRepository {
@@ -46,6 +46,9 @@ class FirebaseAuthRepository {
             }
         _authState.postValue(AuthState.Idle)
     }
+
+    fun logOut() = mAuth.signOut()
+
 
     private fun saveUser(user: User) {
         mDbRef.child(FIREBASE_USERS_ROOT)
