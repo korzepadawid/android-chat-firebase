@@ -8,5 +8,6 @@ class ContactsViewModel(
     private val firebaseAuthRepository: FirebaseAuthRepository,
     private val userRepository: UserRepository
 ) : ViewModel() {
+
     fun logOut() = firebaseAuthRepository.logOut()
 }
