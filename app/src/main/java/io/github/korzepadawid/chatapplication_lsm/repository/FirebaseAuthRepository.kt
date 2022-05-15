@@ -20,10 +20,6 @@ class FirebaseAuthRepository {
     fun register(email: String, password: String, username: String) {
         _authState.postValue(AuthState.Loading)
 
-        if (email.isBlank() || password.isBlank() || username.isBlank()) {
-            _authState.postValue(AuthState.AuthError("Invalid data."))
-        }
-
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -32,6 +28,20 @@ class FirebaseAuthRepository {
                     _authState.postValue(AuthState.Success)
                 } else {
                     _authState.postValue(AuthState.AuthError("Can't create account."))
+                }
+            }
+        _authState.postValue(AuthState.Idle)
+    }
+
+    fun login(email: String, password: String) {
+        _authState.postValue(AuthState.Loading)
+
+        mAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    _authState.postValue(AuthState.Success)
+                } else {
+                    _authState.postValue(AuthState.AuthError("Invalid credentials."))
                 }
             }
         _authState.postValue(AuthState.Idle)

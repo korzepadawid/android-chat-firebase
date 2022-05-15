@@ -1,11 +1,11 @@
 package io.github.korzepadawid.chatapplication_lsm.util
 
 import io.github.korzepadawid.chatapplication_lsm.repository.FirebaseAuthRepository
-import io.github.korzepadawid.chatapplication_lsm.ui.RegisterViewModelFactory
+import io.github.korzepadawid.chatapplication_lsm.ui.auth.AuthViewModelFactory
 
 object Injection {
 
-    fun provideRegisterViewModelFactory(): RegisterViewModelFactory {
-        return RegisterViewModelFactory(FirebaseAuthRepository())
+    fun provideAuthViewModelFactory(): AuthViewModelFactory {
+        return AuthViewModelFactory(FirebaseAuthRepository())
     }
 }

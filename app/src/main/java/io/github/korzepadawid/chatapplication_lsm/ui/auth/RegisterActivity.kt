@@ -1,4 +1,4 @@
-package io.github.korzepadawid.chatapplication_lsm.ui
+package io.github.korzepadawid.chatapplication_lsm.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import io.github.korzepadawid.chatapplication_lsm.R
 import io.github.korzepadawid.chatapplication_lsm.model.AuthState
+import io.github.korzepadawid.chatapplication_lsm.ui.MainActivity
 import io.github.korzepadawid.chatapplication_lsm.util.Injection
 
 class RegisterActivity : AppCompatActivity() {
@@ -27,9 +28,9 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun initializeUi() {
-        val viewModelFactory = Injection.provideRegisterViewModelFactory()
-        val registerViewModel =
-            ViewModelProvider(this, viewModelFactory)[RegisterViewModel::class.java]
+        val viewModelFactory = Injection.provideAuthViewModelFactory()
+        val authViewModel =
+            ViewModelProvider(this, viewModelFactory)[AuthViewModel::class.java]
 
         emailEditText = findViewById(R.id.edit_text_email_register)
         passwordEditText = findViewById(R.id.edit_text_password_register)
@@ -42,7 +43,7 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        registerViewModel.getAuthState().observe(this) { authState ->
+        authViewModel.getAuthState().observe(this) { authState ->
             if (AuthState.Success == authState) {
                 val intent = Intent(this@RegisterActivity, MainActivity::class.java)
                 finish()
@@ -59,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
             val username = usernameEditText.text.toString()
 
             try {
-                registerViewModel.register(email, password, username)
+                authViewModel.register(email, password, username)
             } catch (e: RuntimeException) {
                 Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_SHORT).show()
             }

@@ -1,14 +1,14 @@
-package io.github.korzepadawid.chatapplication_lsm.ui
+package io.github.korzepadawid.chatapplication_lsm.ui.auth
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import io.github.korzepadawid.chatapplication_lsm.model.AuthState
 import io.github.korzepadawid.chatapplication_lsm.repository.FirebaseAuthRepository
 
-class RegisterViewModel(private val firebaseAuthRepository: FirebaseAuthRepository) : ViewModel() {
+class AuthViewModel(private val firebaseAuthRepository: FirebaseAuthRepository) : ViewModel() {
 
     fun register(email: String, password: String, username: String) =
         firebaseAuthRepository.register(email, password, username)
+
+    fun login(email: String, password: String) = firebaseAuthRepository.login(email, password)
 
     fun getAuthState() = firebaseAuthRepository.authState
 }
