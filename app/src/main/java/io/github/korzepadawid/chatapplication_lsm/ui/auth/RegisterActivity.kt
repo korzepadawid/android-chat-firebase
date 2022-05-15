@@ -1,57 +1,23 @@
 package io.github.korzepadawid.chatapplication_lsm.ui.auth
 
 import android.content.Intent
-import android.os.Bundle
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import io.github.korzepadawid.chatapplication_lsm.R
-import io.github.korzepadawid.chatapplication_lsm.model.AuthState
-import io.github.korzepadawid.chatapplication_lsm.ui.MainActivity
-import io.github.korzepadawid.chatapplication_lsm.util.Injection
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : BaseAuthActivity(R.layout.activity_register) {
 
-    private lateinit var emailEditText: EditText
-    private lateinit var passwordEditText: EditText
     private lateinit var usernameEditText: EditText
 
-    private lateinit var loginButton: Button
-    private lateinit var registerButton: Button
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
-        initializeUi()
-    }
-
-    private fun initializeUi() {
-        val viewModelFactory = Injection.provideAuthViewModelFactory()
-        val authViewModel =
-            ViewModelProvider(this, viewModelFactory)[AuthViewModel::class.java]
-
+    override fun initUi() {
         emailEditText = findViewById(R.id.edit_text_email_register)
         passwordEditText = findViewById(R.id.edit_text_password_register)
         usernameEditText = findViewById(R.id.edit_text_username_register)
         loginButton = findViewById(R.id.button_log_in_register)
         registerButton = findViewById(R.id.button_register_register)
-
-        loginButton.setOnClickListener {
-            handleLogInButton()
-        }
-
-        authViewModel.getAuthState().observe(this) { authState ->
-            observeAuthState(authState)
-        }
-
-        registerButton.setOnClickListener {
-            handleRegisterButton(authViewModel)
-        }
     }
 
-    private fun handleRegisterButton(authViewModel: AuthViewModel) {
+    override fun handleRegisterButton() {
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
         val username = usernameEditText.text.toString()
@@ -63,18 +29,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeAuthState(authState: AuthState?) {
-        if (AuthState.Success == authState) {
-            val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-            finish()
-            startActivity(intent)
-        } else if (authState!!::class.java == AuthState.AuthError::class.java) {
-            authState as AuthState.AuthError
-            Toast.makeText(this@RegisterActivity, authState.message, Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun handleLogInButton() {
+    override fun handleLogInButton() {
         val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
         startActivity(intent)
     }
