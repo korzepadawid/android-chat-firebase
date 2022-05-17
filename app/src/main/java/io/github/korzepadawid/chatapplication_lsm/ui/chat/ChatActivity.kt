@@ -1,10 +1,9 @@
 package io.github.korzepadawid.chatapplication_lsm.ui.chat
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import io.github.korzepadawid.chatapplication_lsm.R
-import io.github.korzepadawid.chatapplication_lsm.util.Constants
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.INTENT_RECEIVER_UID
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.INTENT_RECEIVER_USERNAME
 
@@ -15,6 +14,8 @@ class ChatActivity : AppCompatActivity() {
 
         val receiverUid = intent.getStringExtra(INTENT_RECEIVER_UID)
         val receiverUsername = intent.getStringExtra(INTENT_RECEIVER_USERNAME)
+
+        supportActionBar?.title = receiverUsername
 
         Log.i("chat", "$receiverUsername ($receiverUid)")
     }
