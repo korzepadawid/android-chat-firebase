@@ -47,7 +47,7 @@ class ContactsActivity : AppCompatActivity() {
         contactsViewModel.getUsers().observe(this@ContactsActivity) {
             users.clear()
             users.addAll(it)
-            userAdapter.notifyDataSetChanged()
+            userAdapter.notifyItemRangeChanged(0, maxOf(it.size - 1, 0))
         }
     }
 
