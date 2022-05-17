@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.korzepadawid.chatapplication_lsm.R
 import io.github.korzepadawid.chatapplication_lsm.model.User
 import io.github.korzepadawid.chatapplication_lsm.ui.chat.ChatActivity
+import io.github.korzepadawid.chatapplication_lsm.util.Constants.INTENT_RECEIVER_UID
+import io.github.korzepadawid.chatapplication_lsm.util.Constants.INTENT_RECEIVER_USERNAME
 
 class UserAdapter(private val context: Context, private val users: ArrayList<User>) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
@@ -26,6 +28,8 @@ class UserAdapter(private val context: Context, private val users: ArrayList<Use
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, ChatActivity::class.java)
+            intent.putExtra(INTENT_RECEIVER_UID, currentUser.uid)
+            intent.putExtra(INTENT_RECEIVER_USERNAME, currentUser.username)
             context.startActivity(intent)
         }
     }
