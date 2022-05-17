@@ -4,12 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="7dp"
+    android:layout_marginEnd="7dp"
     tools:context=".ui.chat.ChatActivity">
-    <TextView
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recycler_view_messages"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello world"
-        />
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:paddingBottom="7dp"
+        tools:ignore="UselessParent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_weight="20"
+            android:id="@+id/text_input_layout_username_register"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_message">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_username_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_weight="1"
+            android:id="@+id/button_send_geolocation"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:icon="@drawable/ic_baseline_my_location_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_weight="1"
+            android:id="@+id/button_send_message"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:icon="@drawable/ic_baseline_send_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp" />
+    </LinearLayout>
 </RelativeLayout>

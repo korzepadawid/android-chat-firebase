@@ -10,4 +10,5 @@
     <string name="hint_set_theme">Set theme</string>
     <string name="avatar">Avatar</string>
     <string name="mail_place_holder">test@mail.com</string>
+    <string name="hint_message">Message</string>
 </resources>
