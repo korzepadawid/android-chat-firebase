@@ -7,7 +7,14 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.trimmedLength
 import androidx.core.widget.addTextChangedListener
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
 import io.github.korzepadawid.chatapplication_lsm.R
+import io.github.korzepadawid.chatapplication_lsm.model.Place
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.INTENT_RECEIVER_UID
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.INTENT_RECEIVER_USERNAME
 
@@ -16,11 +23,23 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var buttonSendMessage: Button
     private lateinit var editTextMessage: EditText
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
+        val tempPlace: Place = Place(LatLng(52.53481, 17.58259))
+
+        val mapFragment = supportFragmentManager.findFragmentById(
+            R.id.map_fragment
+        ) as? SupportMapFragment
+        mapFragment?.getMapAsync { googleMap ->
+            addGoogleMapMarker(googleMap, tempPlace)
+            googleMap.setOnMapLoadedCallback {
+                val bounds = LatLngBounds.builder()
+                bounds.include(tempPlace.latLng)
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 20))
+            }
+        }
 
         val receiverUid = intent.getStringExtra(INTENT_RECEIVER_UID)
         val receiverUsername = intent.getStringExtra(INTENT_RECEIVER_USERNAME)
@@ -40,5 +59,10 @@ class ChatActivity : AppCompatActivity() {
         editTextMessage.addTextChangedListener { text ->
             buttonSendMessage.isEnabled = text != null && text.trimmedLength() > 0
         }
+    }
+
+    private fun addGoogleMapMarker(googleMap: GoogleMap, place: Place) {
+        val position = MarkerOptions().position(place.latLng)
+        googleMap.addMarker(position)
     }
 }
