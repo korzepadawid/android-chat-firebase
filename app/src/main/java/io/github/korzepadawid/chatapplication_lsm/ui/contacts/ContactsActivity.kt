@@ -40,7 +40,10 @@ class ContactsActivity : AppCompatActivity() {
         userRecyclerView.layoutManager = LinearLayoutManager(this)
         userRecyclerView.adapter = userAdapter
 
+        observeUsers()
+    }
 
+    private fun observeUsers() {
         contactsViewModel.getUsers().observe(this@ContactsActivity) {
             users.clear()
             users.addAll(it)

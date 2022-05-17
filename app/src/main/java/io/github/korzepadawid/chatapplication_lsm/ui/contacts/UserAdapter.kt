@@ -1,6 +1,7 @@
 package io.github.korzepadawid.chatapplication_lsm.ui.contacts
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import io.github.korzepadawid.chatapplication_lsm.R
 import io.github.korzepadawid.chatapplication_lsm.model.User
+import io.github.korzepadawid.chatapplication_lsm.ui.chat.ChatActivity
 
 class UserAdapter(private val context: Context, private val users: ArrayList<User>) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
@@ -21,6 +23,11 @@ class UserAdapter(private val context: Context, private val users: ArrayList<Use
         val currentUser = users[position]
         holder.usernameTextView.text = currentUser.username
         holder.emailTextView.text = currentUser.email
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, ChatActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount() = users.size
