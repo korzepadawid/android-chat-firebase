@@ -32,7 +32,7 @@ class MessageAdapter(private val context: Context, private val messages: ArrayLi
         if (holder.javaClass == SentMessageViewHolder::class.java) {
             val viewHolder = holder as SentMessageViewHolder
             viewHolder.sentMessageTextView.text = currentMessage.text
-        } else if (holder.javaClass == ReceivedMessageViewHolder::receivedMessageTextView) {
+        } else if (holder.javaClass == ReceivedMessageViewHolder::class.java) {
             val viewHolder = holder as ReceivedMessageViewHolder
             viewHolder.receivedMessageTextView.text = currentMessage.text
         }

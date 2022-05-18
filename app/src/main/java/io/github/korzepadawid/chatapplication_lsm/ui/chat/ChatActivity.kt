@@ -68,6 +68,7 @@ class ChatActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
             messages.clear()
             messages.addAll(it)
             messageAdapter.notifyDataSetChanged()
+            recyclerViewMessages.scrollToPosition(messages.size - 1)
         }
 
         disableButtonWhenEmptyMessageText()

@@ -4,10 +4,10 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:layout_marginTop="2dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
+        android:layout_marginTop="2dp"
         android:background="@drawable/message_received_background">
 
         <TextView
