@@ -5,6 +5,7 @@ class Message(
     val senderUid: String = "",
     val receiverUid: String = "",
     val type: Type = Type.TEXT,
+    val place: Place? = null,
     val timestamp: String = System.currentTimeMillis().toString()
 ) {
 

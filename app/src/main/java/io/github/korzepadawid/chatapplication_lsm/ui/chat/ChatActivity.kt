@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import io.github.korzepadawid.chatapplication_lsm.R
-import io.github.korzepadawid.chatapplication_lsm.model.Message
+import io.github.korzepadawid.chatapplication_lsm.model.Place
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.INTENT_RECEIVER_UID
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.INTENT_RECEIVER_USERNAME
 import io.github.korzepadawid.chatapplication_lsm.util.Injection
@@ -40,7 +40,6 @@ class ChatActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         chatViewModelFactory = Injection.provideChatViewModelFactory()
         chatViewModel = ViewModelProvider(this, chatViewModelFactory)[ChatViewModel::class.java]
 
-
         val receiverUid = intent.getStringExtra(INTENT_RECEIVER_UID)
         val receiverUsername = intent.getStringExtra(INTENT_RECEIVER_USERNAME)
 
@@ -55,10 +54,10 @@ class ChatActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
         listenForSendingMessage(receiverUid)
 
-        listenForSendingGeolocation()
+        listenForSendingGeolocation(receiverUid)
     }
 
-    private fun listenForSendingGeolocation() {
+    private fun listenForSendingGeolocation(receiverUid: String?) {
         buttonSendGeolocation.setOnClickListener {
             if (ActivityCompat.checkSelfPermission(
                     this,
@@ -71,8 +70,8 @@ class ChatActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
                 requestPermissions()
             }
             fusedLocationProviderClient.lastLocation.addOnSuccessListener {
-                Log.i("lat", it.latitude.toString())
-                Log.i("lat", it.longitude.toString())
+                val place = Place(latitude = it.latitude, longitude = it.longitude)
+                chatViewModel.sendMessage("", receiverUid.toString(), place)
             }
         }
     }
@@ -80,7 +79,7 @@ class ChatActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     private fun listenForSendingMessage(receiverUid: String?) {
         buttonSendMessage.setOnClickListener {
             val text = editTextMessage.text.toString()
-            chatViewModel.sendMessage(text, receiverUid.toString(), Message.Type.TEXT)
+            chatViewModel.sendMessage(text, receiverUid.toString())
             editTextMessage.setText("")
         }
     }
@@ -131,7 +130,7 @@ class ChatActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        Log.i("permiossions", "granted")
+        Log.i("Permissions", "Granted")
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
