@@ -9,4 +9,9 @@ class ChatViewModel(private val messageRepository: MessageRepository) : ViewMode
 
     fun sendMessage(text: String, receiverUid: String, place: Place? = null) =
         messageRepository.sendMessage(text, receiverUid, place)
+
+    fun getMessages() = messageRepository.messages
+
+    fun getMessagesByReceiverUid(receiverUid: String) =
+        messageRepository.getMessagesByReceiverUid(receiverUid)
 }

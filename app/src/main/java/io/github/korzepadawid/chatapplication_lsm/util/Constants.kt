@@ -6,4 +6,6 @@ object Constants {
     const val FIREBASE_MESSAGES_ROOT = "messages"
     const val INTENT_RECEIVER_UID = "receiver_uid"
     const val INTENT_RECEIVER_USERNAME = "receiver_username"
+    const val MESSAGE_SENT = 1
+    const val MESSAGE_RECEIVED = 2
 }

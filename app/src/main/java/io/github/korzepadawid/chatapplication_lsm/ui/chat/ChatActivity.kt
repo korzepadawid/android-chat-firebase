@@ -12,9 +12,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.text.trimmedLength
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import io.github.korzepadawid.chatapplication_lsm.R
+import io.github.korzepadawid.chatapplication_lsm.model.Message
 import io.github.korzepadawid.chatapplication_lsm.model.Place
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.INTENT_RECEIVER_UID
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.INTENT_RECEIVER_USERNAME
@@ -28,6 +31,9 @@ class ChatActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     private lateinit var buttonSendMessage: Button
     private lateinit var buttonSendGeolocation: Button
     private lateinit var editTextMessage: EditText
+    private lateinit var recyclerViewMessages: RecyclerView
+
+    private lateinit var messageAdapter: MessageAdapter
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private lateinit var chatViewModelFactory: ChatViewModelFactory
@@ -40,15 +46,29 @@ class ChatActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         chatViewModelFactory = Injection.provideChatViewModelFactory()
         chatViewModel = ViewModelProvider(this, chatViewModelFactory)[ChatViewModel::class.java]
 
-        val receiverUid = intent.getStringExtra(INTENT_RECEIVER_UID)
-        val receiverUsername = intent.getStringExtra(INTENT_RECEIVER_USERNAME)
+        val receiverUid = intent.getStringExtra(INTENT_RECEIVER_UID)!!
+        val receiverUsername = intent.getStringExtra(INTENT_RECEIVER_USERNAME)!!
 
         supportActionBar?.title = receiverUsername
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        recyclerViewMessages = findViewById(R.id.recycler_view_messages)
+        chatViewModel.getMessagesByReceiverUid(receiverUid)
+        recyclerViewMessages.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        val messages = ArrayList<Message>()
+        messageAdapter = MessageAdapter(this, messages)
+        recyclerViewMessages.adapter = messageAdapter
+
         buttonSendMessage = findViewById(R.id.button_send_message)
         editTextMessage = findViewById(R.id.edit_text_message)
         buttonSendGeolocation = findViewById(R.id.button_send_geolocation)
+
+        chatViewModel.getMessages().observe(this@ChatActivity) {
+            messages.clear()
+            messages.addAll(it)
+            messageAdapter.notifyDataSetChanged()
+        }
 
         disableButtonWhenEmptyMessageText()
 
