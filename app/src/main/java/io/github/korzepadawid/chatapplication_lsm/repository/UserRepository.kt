@@ -42,6 +42,5 @@ class UserRepository {
                     Log.e("firebase", error.message)
                 }
             })
-
     }
 }
