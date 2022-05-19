@@ -1,6 +1,7 @@
 package io.github.korzepadawid.chatapplication_lsm.ui.chat
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import io.github.korzepadawid.chatapplication_lsm.R
 import io.github.korzepadawid.chatapplication_lsm.model.Message
+import io.github.korzepadawid.chatapplication_lsm.ui.map.GoogleMapsActivity
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.GEOLOCATION_RECEIVED
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.GEOLOCATION_SENT
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.MESSAGE_RECEIVED
@@ -33,12 +35,20 @@ class MessageAdapter(private val context: Context, private val messages: ArrayLi
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentMessage = messages[position]
+
         if (holder.javaClass == SentMessageViewHolder::class.java) {
             val viewHolder = holder as SentMessageViewHolder
             viewHolder.sentMessageTextView.text = getMessageContent(currentMessage)
         } else if (holder.javaClass == ReceivedMessageViewHolder::class.java) {
             val viewHolder = holder as ReceivedMessageViewHolder
             viewHolder.receivedMessageTextView.text = getMessageContent(currentMessage)
+        }
+
+        if (Message.Type.LOCATION == currentMessage.type) {
+            holder.itemView.setOnClickListener {
+                val intent = Intent(context, GoogleMapsActivity::class.java);
+                context.startActivity(intent)
+            }
         }
     }
 
