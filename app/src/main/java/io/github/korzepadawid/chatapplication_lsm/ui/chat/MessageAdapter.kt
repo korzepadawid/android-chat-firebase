@@ -9,14 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import io.github.korzepadawid.chatapplication_lsm.R
 import io.github.korzepadawid.chatapplication_lsm.model.Message
+import io.github.korzepadawid.chatapplication_lsm.util.Constants.GEOLOCATION_RECEIVED
+import io.github.korzepadawid.chatapplication_lsm.util.Constants.GEOLOCATION_SENT
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.MESSAGE_RECEIVED
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.MESSAGE_SENT
+import io.github.korzepadawid.chatapplication_lsm.util.Constants.PIN_EMOJI
+import io.github.korzepadawid.chatapplication_lsm.util.Constants.WORLD_EMOJI
 
 class MessageAdapter(private val context: Context, private val messages: ArrayList<Message>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == MESSAGE_SENT) {
+        return if (viewType == MESSAGE_SENT || viewType == GEOLOCATION_SENT) {
             val view: View =
                 LayoutInflater.from(context).inflate(R.layout.layout_message_sent, parent, false)
             SentMessageViewHolder(view)
@@ -31,19 +35,30 @@ class MessageAdapter(private val context: Context, private val messages: ArrayLi
         val currentMessage = messages[position]
         if (holder.javaClass == SentMessageViewHolder::class.java) {
             val viewHolder = holder as SentMessageViewHolder
-            viewHolder.sentMessageTextView.text = currentMessage.text
+            viewHolder.sentMessageTextView.text = getMessageContent(currentMessage)
         } else if (holder.javaClass == ReceivedMessageViewHolder::class.java) {
             val viewHolder = holder as ReceivedMessageViewHolder
-            viewHolder.receivedMessageTextView.text = currentMessage.text
+            viewHolder.receivedMessageTextView.text = getMessageContent(currentMessage)
         }
     }
 
+    private fun getMessageContent(currentMessage: Message) =
+        if (Message.Type.LOCATION == currentMessage.type) "$WORLD_EMOJI$PIN_EMOJI" else currentMessage.text
+
     override fun getItemViewType(position: Int): Int {
         val currentMessage = messages[position]
-        if (currentMessage.senderUid == FirebaseAuth.getInstance().uid) {
-            return MESSAGE_SENT
+        return when (currentMessage.type) {
+            Message.Type.LOCATION -> if (currentMessage.senderUid == FirebaseAuth.getInstance().uid) {
+                GEOLOCATION_SENT
+            } else {
+                GEOLOCATION_RECEIVED
+            }
+            Message.Type.TEXT -> if (currentMessage.senderUid == FirebaseAuth.getInstance().uid) {
+                MESSAGE_SENT
+            } else {
+                MESSAGE_RECEIVED
+            }
         }
-        return MESSAGE_RECEIVED
     }
 
     override fun getItemCount(): Int {

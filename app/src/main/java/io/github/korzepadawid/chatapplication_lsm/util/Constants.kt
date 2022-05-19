@@ -8,4 +8,8 @@ object Constants {
     const val INTENT_RECEIVER_USERNAME = "receiver_username"
     const val MESSAGE_SENT = 1
     const val MESSAGE_RECEIVED = 2
+    const val GEOLOCATION_RECEIVED = 3
+    const val GEOLOCATION_SENT = 4
+    const val WORLD_EMOJI = "\uD83C\uDF0E"
+    const val PIN_EMOJI = "\uD83D\uDCCD"
 }

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.text.trimmedLength
@@ -90,9 +91,17 @@ class ChatActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
             ) {
                 requestPermissions()
             }
-            fusedLocationProviderClient.lastLocation.addOnSuccessListener {
-                val place = Place(latitude = it.latitude, longitude = it.longitude)
-                chatViewModel.sendMessage("", receiverUid.toString(), place)
+            fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    val place = Place(latitude = location.latitude, longitude = location.longitude)
+                    chatViewModel.sendMessage("", receiverUid.toString(), place)
+                } else {
+                    Toast.makeText(
+                        this@ChatActivity,
+                        "Can't get current location.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }
