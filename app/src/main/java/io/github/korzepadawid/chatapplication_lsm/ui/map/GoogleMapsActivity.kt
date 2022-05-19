@@ -53,7 +53,7 @@ class GoogleMapsActivity : AppCompatActivity() {
 
     private fun addMarkers(googleMap: GoogleMap, latLng: LatLng) {
         googleMap.addMarker(
-            MarkerOptions().title("Requested location").position(latLng)
+            MarkerOptions().title("${latLng.latitude}° ${latLng.longitude}°").position(latLng)
         )
     }
 }
