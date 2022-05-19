@@ -2,6 +2,7 @@ package io.github.korzepadawid.chatapplication_lsm.ui.chat
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,11 @@ import com.google.firebase.auth.FirebaseAuth
 import io.github.korzepadawid.chatapplication_lsm.R
 import io.github.korzepadawid.chatapplication_lsm.model.Message
 import io.github.korzepadawid.chatapplication_lsm.ui.map.GoogleMapsActivity
+import io.github.korzepadawid.chatapplication_lsm.util.Constants
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.GEOLOCATION_RECEIVED
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.GEOLOCATION_SENT
+import io.github.korzepadawid.chatapplication_lsm.util.Constants.INTENT_LATITUDE
+import io.github.korzepadawid.chatapplication_lsm.util.Constants.INTENT_LONGITUDE
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.MESSAGE_RECEIVED
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.MESSAGE_SENT
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.PIN_EMOJI
@@ -47,6 +51,8 @@ class MessageAdapter(private val context: Context, private val messages: ArrayLi
         if (Message.Type.LOCATION == currentMessage.type) {
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, GoogleMapsActivity::class.java);
+                intent.putExtra(INTENT_LATITUDE, currentMessage.place!!.latitude)
+                intent.putExtra(INTENT_LONGITUDE, currentMessage.place.longitude)
                 context.startActivity(intent)
             }
         }
