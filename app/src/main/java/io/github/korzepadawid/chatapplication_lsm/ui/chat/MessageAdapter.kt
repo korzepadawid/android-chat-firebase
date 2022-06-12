@@ -21,7 +21,11 @@ import io.github.korzepadawid.chatapplication_lsm.util.Constants.MESSAGE_SENT
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.PIN_EMOJI
 import io.github.korzepadawid.chatapplication_lsm.util.Constants.WORLD_EMOJI
 
-class MessageAdapter(private val context: Context, private val messages: ArrayList<Message>) :
+class MessageAdapter(
+    private val context: Context,
+    private val messages: ArrayList<Message>,
+    private val chatViewModel: ChatViewModel
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -48,7 +52,8 @@ class MessageAdapter(private val context: Context, private val messages: ArrayLi
         }
 
         holder.itemView.setOnLongClickListener {
-            Log.i("long", "long pres")
+            Log.i("long", "pressed")
+            chatViewModel.removeMessage(currentMessage.receiverUid, currentMessage.uid)
             true
         }
 

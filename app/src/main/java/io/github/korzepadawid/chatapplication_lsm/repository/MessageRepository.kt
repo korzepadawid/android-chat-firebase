@@ -29,7 +29,13 @@ class MessageRepository {
         val type: Message.Type =
             if (place != null) Message.Type.LOCATION else Message.Type.TEXT
 
-        val message = Message(text, senderUid, receiverUid, type, place)
+        val message = Message(
+            text = text,
+            senderUid = senderUid,
+            receiverUid = receiverUid,
+            type = type,
+            place = place
+        )
 
         mDbRef.child(FIREBASE_CHAT_ROOMS_ROOT)
             .child(senderChatRoomUid)
@@ -52,6 +58,24 @@ class MessageRepository {
         val senderUid = mAuth.currentUser?.uid.toString()
         val (senderChatRoomUid) = parseUids(senderUid, receiverUid)
         observeMessageChanges(senderChatRoomUid)
+    }
+
+    fun removeMessageFromChatRoom(receiverUid: String, messageToDeleteUid: String) {
+        val senderUid = mAuth.currentUser?.uid.toString()
+        val (senderChatRoomUid) = parseUids(senderUid, receiverUid)
+
+        mDbRef.child(FIREBASE_CHAT_ROOMS_ROOT)
+            .child(senderChatRoomUid)
+            .child(FIREBASE_MESSAGES_ROOT)
+            .get()
+            .addOnSuccessListener { result ->
+                result.children.forEach { dataSnapshot ->
+                    val currentMessage = dataSnapshot.getValue(Message::class.java)!!
+                    if (currentMessage.uid == messageToDeleteUid) {
+                        dataSnapshot.ref.removeValue()
+                    }
+                }
+            }
     }
 
     private fun observeMessageChanges(senderChatRoomUid: String) {

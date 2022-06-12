@@ -1,7 +1,6 @@
 package io.github.korzepadawid.chatapplication_lsm.ui.chat
 
 import androidx.lifecycle.ViewModel
-import io.github.korzepadawid.chatapplication_lsm.model.Message
 import io.github.korzepadawid.chatapplication_lsm.model.Place
 import io.github.korzepadawid.chatapplication_lsm.repository.MessageRepository
 
@@ -14,4 +13,7 @@ class ChatViewModel(private val messageRepository: MessageRepository) : ViewMode
 
     fun getMessagesByReceiverUid(receiverUid: String) =
         messageRepository.getMessagesByReceiverUid(receiverUid)
+
+    fun removeMessage(receiverUid: String, messageToRemoveUid: String) =
+        messageRepository.removeMessageFromChatRoom(receiverUid, messageToRemoveUid)
 }

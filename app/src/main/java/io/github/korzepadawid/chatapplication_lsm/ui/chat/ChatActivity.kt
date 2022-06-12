@@ -58,7 +58,7 @@ class ChatActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         recyclerViewMessages.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         val messages = ArrayList<Message>()
-        messageAdapter = MessageAdapter(this, messages)
+        messageAdapter = MessageAdapter(this, messages, chatViewModel)
         recyclerViewMessages.adapter = messageAdapter
 
         buttonSendMessage = findViewById(R.id.button_send_message)
