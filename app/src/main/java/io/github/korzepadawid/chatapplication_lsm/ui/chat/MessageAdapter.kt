@@ -2,6 +2,7 @@ package io.github.korzepadawid.chatapplication_lsm.ui.chat
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,11 @@ class MessageAdapter(private val context: Context, private val messages: ArrayLi
         } else if (holder.javaClass == ReceivedMessageViewHolder::class.java) {
             val viewHolder = holder as ReceivedMessageViewHolder
             viewHolder.receivedMessageTextView.text = getMessageContent(currentMessage)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            Log.i("long", "long pres")
+            true
         }
 
         if (Message.Type.LOCATION == currentMessage.type) {
