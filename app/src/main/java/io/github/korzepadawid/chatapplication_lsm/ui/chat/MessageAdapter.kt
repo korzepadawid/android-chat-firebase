@@ -2,7 +2,6 @@ package io.github.korzepadawid.chatapplication_lsm.ui.chat
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,8 +51,10 @@ class MessageAdapter(
         }
 
         holder.itemView.setOnLongClickListener {
-            Log.i("long", "pressed")
-            chatViewModel.removeMessage(currentMessage.receiverUid, currentMessage.uid)
+            val uid =
+                if (currentMessage.receiverUid == FirebaseAuth.getInstance().uid)
+                    currentMessage.senderUid else currentMessage.receiverUid
+            chatViewModel.removeMessage(uid, currentMessage.uid)
             true
         }
 
