@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,12 +27,13 @@ class ContactsActivity : AppCompatActivity() {
     private lateinit var contactsViewModel: ContactsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_contacts)
-
         contactsViewModelFactory = Injection.provideContactsViewModelFactory()
         contactsViewModel =
             ViewModelProvider(this, contactsViewModelFactory)[ContactsViewModel::class.java]
+        contactsViewModel.setThemeFromCurrentUserThemePreference()
+
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_contacts)
 
         userRecyclerView = findViewById(R.id.recycler_view_contacts)
         users = ArrayList()
@@ -60,7 +62,7 @@ class ContactsActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_item_logout -> handleLogOut()
             R.id.menu_item_set_theme -> {
-                Log.i("menu", "set theme")
+                contactsViewModel.toggleUpdateAppThemeAndUserThemePreference()
             }
         }
         return true
@@ -70,7 +72,6 @@ class ContactsActivity : AppCompatActivity() {
         contactsViewModel.logOut()
         val intent = Intent(this@ContactsActivity, LoginActivity::class.java)
         finish()
-        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         startActivity(intent)
     }
 }

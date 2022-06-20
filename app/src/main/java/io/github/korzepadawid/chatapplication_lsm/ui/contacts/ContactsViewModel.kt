@@ -9,6 +9,12 @@ class ContactsViewModel(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
+    fun setThemeFromCurrentUserThemePreference() =
+        userRepository.setThemeFromCurrentUserThemePreference()
+
+    fun toggleUpdateAppThemeAndUserThemePreference() =
+        userRepository.toggleUpdateAppThemeAndUserThemePreference()
+
     fun getUsers() = userRepository.users
 
     fun logOut() = firebaseAuthRepository.logOut()

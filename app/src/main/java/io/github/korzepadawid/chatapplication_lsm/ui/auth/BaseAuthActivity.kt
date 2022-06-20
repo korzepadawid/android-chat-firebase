@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import io.github.korzepadawid.chatapplication_lsm.ui.contacts.ContactsActivity
 import io.github.korzepadawid.chatapplication_lsm.util.Injection

@@ -70,7 +70,6 @@ class MessageRepository {
             .get()
             .addOnSuccessListener { result ->
                 result.children.forEach { dataSnapshot ->
-                    Log.i("eldorado", messageToDeleteUid)
                     val currentMessage = dataSnapshot.getValue(Message::class.java)!!
                     if (currentMessage.uid == messageToDeleteUid) {
                         dataSnapshot.ref.removeValue()

@@ -5,4 +5,11 @@ data class User(
     val username: String = "",
     val email: String = "",
     val themePreference: ThemePreference = ThemePreference.LIGHT
-)
+) {
+    fun toMap(): MutableMap<String, Any>  = mutableMapOf(
+        "email" to email,
+        "themePreference" to themePreference,
+        "uid" to uid,
+        "username" to username,
+    )
+}
